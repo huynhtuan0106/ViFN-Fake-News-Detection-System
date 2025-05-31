@@ -1,4 +1,4 @@
-# Dự án Phát hiện Tin tức Giả tiếng Việt bằng Late Fusion Architecture
+# Dự án Phát hiện Tin tức Giả Late Fusion Architecture
 
 ## Tổng quan dự án
 Dự án này sử dụng kỹ thuật **Late Fusion** để phân tích và phát hiện tin tức giả tiếng Việt thông qua việc kết hợp thông tin từ nhiều trường dữ liệu khác nhau: `title`, `summary`, `content`, `domain`.
@@ -197,12 +197,4 @@ def objective(trial):
     lr = trial.suggest_float('lr', 1e-5, 1e-2, log=True)
     # Training và return accuracy
 ```
-
----
-
-**Nếu gặp vấn đề:**
-1. Đọc `USAGE_GUIDE.md` để biết hướng dẫn chi tiết
-2. Kiểm tra format dữ liệu CSV
-3. Test từng module riêng: `python data_loader.py`
-4. Kiểm tra GPU memory: `nvidia-smi`
 
