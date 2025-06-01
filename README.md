@@ -121,10 +121,10 @@ pip install -r requirements_updated.txt
 VIETNAMESE FAKE NEWS DETECTION - LATE FUSION ARCHITECTURE
 ================================================================================
 
-🏆 BEST MODEL: Attention Fusion
-📊 Best Accuracy: 0.8750
-📈 Best AUC-ROC: 0.9320
-🎯 Best F1-Score: 0.8690
+BEST MODEL: Attention Fusion
+- Best Accuracy: 0.8750
+- Best AUC-ROC: 0.9320
+- Best F1-Score: 0.8690
 ```
 
 ### **Files được tạo:**

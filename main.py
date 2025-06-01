@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Main script để chạy Late Fusion với dữ liệu thực tế
+Main script 
 """
 
 import pandas as pd
@@ -20,14 +20,14 @@ from models import create_model
 from dataset import create_data_splits, create_data_loaders
 from training import train_model, evaluate_model, calculate_metrics, print_evaluation_results
 
-def main_with_real_data(real_file_path, fake_file_path, use_bert=False, output_dir='results'):
+def main_with_real_data(real_file_path, fake_file_path, use_bert=True, output_dir='results'):
     """
-    Main function để chạy với dữ liệu thực tế
+    Main function 
     
     Args:
         real_file_path: Đường dẫn file CSV chứa tin thật
         fake_file_path: Đường dẫn file CSV chứa tin giả  
-        use_bert: Có sử dụng BERT embeddings không (tốn tài nguyên)
+        use_bert: Có sử dụng BERT embeddings không 
         output_dir: Thư mục lưu kết quả
     """
     
@@ -43,7 +43,7 @@ def main_with_real_data(real_file_path, fake_file_path, use_bert=False, output_d
     os.makedirs(output_dir, exist_ok=True)
     
     try:
-        # 1. Load và preprocess dữ liệu thực tế
+        # 1. Load và preprocess dữ liệu 
         print("\n" + "="*60)
         print("1. LOADING AND PREPROCESSING REAL DATA")
         print("="*60)
@@ -165,9 +165,9 @@ def main_with_real_data(real_file_path, fake_file_path, use_bert=False, output_d
         best_fusion_type = fusion_types[best_model_idx]
         
         print(f"\n🏆 BEST MODEL: {best_model_name}")
-        print(f"📊 Best Accuracy: {comparison_df.loc[best_model_idx, 'Accuracy']:.4f}")
-        print(f"📈 Best AUC-ROC: {comparison_df.loc[best_model_idx, 'AUC-ROC']:.4f}")
-        print(f"🎯 Best F1-Score: {comparison_df.loc[best_model_idx, 'F1-Score']:.4f}")
+        print(f"Best Accuracy: {comparison_df.loc[best_model_idx, 'Accuracy']:.4f}")
+        print(f"Best AUC-ROC: {comparison_df.loc[best_model_idx, 'AUC-ROC']:.4f}")
+        print(f"Best F1-Score: {comparison_df.loc[best_model_idx, 'F1-Score']:.4f}")
         
         # 7. Visualization
         print(f"\n6. CREATING VISUALIZATIONS")
@@ -185,7 +185,7 @@ def main_with_real_data(real_file_path, fake_file_path, use_bert=False, output_d
         return results, comparison_df
         
     except Exception as e:
-        print(f"\n❌ ERROR: {str(e)}")
+        print(f"\nERROR: {str(e)}")
         import traceback
         traceback.print_exc()
         return None, None
@@ -334,17 +334,17 @@ if __name__ == "__main__":
     # python main_real_data.py
     
     # Thay đổi đường dẫn file theo dữ liệu của bạn
-    REAL_FILE_PATH = "FakeNew/Crawler/processing/deduplicated_articles_real.csv"  # Tin thật
-    FAKE_FILE_PATH = "FakeNew/Crawler/processing/deduplicated_articles_fake.csv"  # Tin giả
+    REAL_FILE_PATH = "D:\Huynh Tuan\STUDY\KHOA_LUAN_TOT_NGHIEP\Vietnamese-Fake-News-Dataset-Version3\processed\deduplicated_articles_real.csv"  # Tin thật
+    FAKE_FILE_PATH = "D:\Huynh Tuan\STUDY\KHOA_LUAN_TOT_NGHIEP\Vietnamese-Fake-News-Dataset-Version3\processed\deduplicated_articles_fake.csv"  # Tin giả
     
     # Kiểm tra file tồn tại
     if not os.path.exists(REAL_FILE_PATH):
-        print(f"❌ Real data file not found: {REAL_FILE_PATH}")
+        print(f"Real data file not found: {REAL_FILE_PATH}")
         print("Please update REAL_FILE_PATH with correct path")
         sys.exit(1)
         
     if not os.path.exists(FAKE_FILE_PATH):
-        print(f"❌ Fake data file not found: {FAKE_FILE_PATH}")
+        print(f"Fake data file not found: {FAKE_FILE_PATH}")
         print("Please update FAKE_FILE_PATH with correct path")
         sys.exit(1)
     
@@ -353,22 +353,22 @@ if __name__ == "__main__":
         results, comparison_df = main_with_real_data(
             real_file_path=REAL_FILE_PATH,
             fake_file_path=FAKE_FILE_PATH,
-            use_bert=False,  # Đặt True nếu muốn dùng BERT (tốn tài nguyên)
+            use_bert=True,  # Đặt True nếu muốn dùng BERT 
             output_dir='experiment_results'
         )
         
         if results is not None:
             print("\n" + "="*80)
-            print("🎉 EXPERIMENT COMPLETED SUCCESSFULLY!")
+            print("EXPERIMENT COMPLETED SUCCESSFULLY!")
             print("="*80)
-            print("📁 Check 'experiment_results' folder for:")
+            print("Check 'experiment_results' folder for:")
             print("   - Trained models (.pth files)")
             print("   - Visualization plots (.png)")
             print("   - Experiment report (.txt)")
         
     except KeyboardInterrupt:
-        print("\n⚠️  Experiment interrupted by user")
+        print("\nExperiment interrupted by user")
     except Exception as e:
-        print(f"\n❌ Experiment failed: {str(e)}")
+        print(f"\nExperiment failed: {str(e)}")
         import traceback
         traceback.print_exc() 
