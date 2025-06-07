@@ -1,141 +1,180 @@
-# 🇻🇳 Vietnamese Fake News Detection System
+# Vietnamese Fake News Detection System
 
-## 🚀 BERT/PhoBERT Fine-tuning cho Phát hiện Tin giả Tiếng Việt
+A comprehensive fake news detection system for Vietnamese text using BERT/PhoBERT fine-tuning with multimodal fusion, domain regularization, and advanced data balancing techniques.
 
-Hệ thống phát hiện tin giả tiếng Việt sử dụng **BERT/PhoBERT fine-tuning** với **multimodal fusion**, **domain regularization** và **SMOTETomek data balancing**.
+## Overview
 
----
+This system implements state-of-the-art natural language processing techniques specifically designed for Vietnamese fake news detection. The architecture leverages PhoBERT (Vietnamese BERT) with multimodal fusion strategies to analyze title, summary, and content simultaneously, achieving high accuracy through domain regularization and SMOTETomek data balancing.
 
-## 🎯 **TỔNG QUAN HỆ THỐNG**
+### Key Features
 
-✅ **Đã thực hiện:**
-- ✅ Fine-tune PhoBERT/BERT end-to-end cho tiếng Việt
-- ✅ Multimodal fusion (title + summary + content + domain features)
-- ✅ Domain regularization để tránh domain overfitting  
-- ✅ 3 fusion strategies: Concat, Attention, Gated
-- ✅ So sánh PhoBERT vs Multilingual BERT
-- ✅ SMOTETomek data balancing (65:35 ratio)
-- ✅ Mixed precision training (AMP) để tiết kiệm GPU memory
-- ✅ Comprehensive evaluation và visualization
+- **End-to-end PhoBERT/BERT fine-tuning** optimized for Vietnamese text
+- **Multimodal fusion** combining title, summary, content, and domain features
+- **Domain regularization** to prevent domain overfitting
+- **Three fusion strategies**: Concatenation, Attention, and Gated mechanisms
+- **SMOTETomek data balancing** with 65:35 ratio optimization
+- **Mixed precision training** (AMP) for memory efficiency
+- **Comprehensive evaluation** with detailed metrics and visualizations
 
----
+## System Architecture
 
-## 🏗️ **KIẾN TRÚC HỆ THỐNG**
-
+```mermaid
+graph TD
+    A["Data Loading<br/>(CSV Files)"] --> B["SMOTETomek Balancing<br/>(65:35 ratio)"]
+    B --> C["Text Preprocessing"]
+    C --> D["PhoBERT Tokenization"]
+    
+    D --> E1["Title Embedding<br/>(PhoBERT)"]
+    D --> E2["Summary Embedding<br/>(PhoBERT)"]
+    D --> E3["Content Embedding<br/>(PhoBERT)"]
+    
+    F["Domain Features<br/>Processing"] --> G["Domain Regularization"]
+    
+    E1 --> H["Multimodal Fusion"]
+    E2 --> H
+    E3 --> H
+    G --> H
+    
+    H --> I1["Concat Fusion"]
+    H --> I2["Attention Fusion"]
+    H --> I3["Gated Fusion"]
+    
+    I1 --> J["Classification Head<br/>(Binary Output)"]
+    I2 --> J
+    I3 --> J
+    
+    J --> K["Prediction<br/>(Real/Fake)"]
+    
+    style A fill:#e1f5fe
+    style K fill:#c8e6c9
+    style H fill:#fff3e0
+    style J fill:#fce4ec
 ```
-📊 Data Loading & SMOTETomek Balancing
-       ↓
-🤖 PhoBERT Tokenization (Title, Summary, Content)
-       ↓
-🔥 Fine-tuned BERT Embedders (Separate for each modality)
-       ↓
-🌐 Domain Features Processing + Regularization
-       ↓
-🔀 Multimodal Fusion (Attention/Concat/Gated)
-       ↓
-🎯 Classification Head (2 classes: Real/Fake)
-       ↓
-📈 Results & Comprehensive Evaluation
-```
 
----
+## Project Structure
 
-## 📁 **CẤU TRÚC FILES VÀ VAI TRÒ**
+### Core Components
 
-### **🎯 Core Training Files**
+| File | Purpose | Description |
+|------|---------|-------------|
+| `main.py` | Entry Point | Main application launcher with experiment selection |
+| `bert_training.py` | Model Training | Core training logic for individual model configurations |
+| `main_bert_experiment.py` | Model Comparison | Automated comparison of multiple BERT configurations |
+| `bert_fine_tuner.py` | Architecture Definition | Multimodal BERT fusion model implementations |
+| `bert_dataset.py` | Data Handling | BERT-specific dataset and data loading utilities |
 
-| File | Vai trò | Mô tả |
-|------|---------|-------|
-| `main.py` | 🚪 **Main entry point** | Điểm khởi chạy chính, chọn experiment type |
-| `bert_training.py` | 🏋️ **Single model training** | Training logic cho 1 model với cấu hình specific |
-| `main_bert_experiment.py` | 🔬 **Model comparison** | So sánh multiple BERT models/fusion strategies |
-| `bert_fine_tuner.py` | 🤖 **Model architectures** | Định nghĩa multimodal BERT fusion models |
-| `bert_dataset.py` | 📊 **BERT dataset handling** | DataLoader và collate functions cho BERT |
+### Data Processing
 
-### **📚 Data Processing Files**
+| File | Purpose | Description |
+|------|---------|-------------|
+| `data_loader.py` | Data Pipeline | CSV loading, text preprocessing, and feature extraction |
+| `data_balancer.py` | Data Balancing | SMOTETomek implementation for optimal data distribution |
 
-| File | Vai trò | Mô tả |
-|------|---------|-------|
-| `data_loader.py` | 📥 **Data loading & preprocessing** | Load CSV, text processing, domain features |
-| `data_balancer.py` | ⚖️ **SMOTETomek balancing** | Cân bằng dữ liệu 65:35 ratio |
+### Configuration & Utilities
 
-### **⚙️ Configuration & Utilities**
+| File | Purpose | Description |
+|------|---------|-------------|
+| `config.py` | System Configuration | GPU settings, model parameters, and training configurations |
+| `results_saver.py` | Results Management | Comprehensive metrics saving, plotting, and report generation |
 
-| File | Vai trò | Mô tả |
-|------|---------|-------|
-| `config.py` | ⚙️ **System configuration** | GPU settings, BERT config, training parameters |
-| `results_saver.py` | 💾 **Results management** | Lưu metrics, plots, comprehensive reports |
+## Installation
 
-### **📋 Documentation**
+### Prerequisites
 
-| File | Vai trò | Mô tả |
-|------|---------|-------|
-| `README.md` | 📖 **Documentation** | Hướng dẫn sử dụng và cấu trúc hệ thống |
-| `requirements_updated.txt` | 📦 **Dependencies** | Python packages cần thiết |
+- Python 3.8+
+- CUDA-compatible GPU (recommended)
+- 8GB+ GPU memory for optimal performance
 
----
-
-## 🚀 **CÁCH SỬ DỤNG**
-
-### **Bước 1: Setup Environment**
+### Setup Environment
 
 ```bash
-# Tạo virtual environment
+# Create virtual environment
 python -m venv fake_news_env
-source fake_news_env/bin/activate  # Linux/Mac
-# fake_news_env\Scripts\activate   # Windows
+
+# Activate environment
+# Windows
+fake_news_env\Scripts\activate
+# Linux/Mac
+source fake_news_env/bin/activate
 
 # Install dependencies
 pip install -r requirements_updated.txt
 ```
 
-### **Bước 2: Cấu hình GPU (Quan trọng!)**
+### GPU Configuration
+
+Test your GPU configuration and get optimization recommendations:
 
 ```bash
-# Kiểm tra GPU và đề xuất cấu hình tối ưu
-python gpu_optimization_guide.py
+python test_gpu.py
 ```
 
-**Các cấu hình được đề xuất:**
+**Recommended configurations by GPU memory:**
 - **4GB GPU**: batch_size=2, freeze 6 layers
-- **6GB GPU**: batch_size=4, freeze 3 layers  
+- **6GB GPU**: batch_size=4, freeze 3 layers
 - **8GB GPU**: batch_size=8, no freezing (recommended)
 - **12GB+ GPU**: batch_size=16+, full performance
 
-### **Bước 3: Cập nhật đường dẫn dữ liệu**
+## Usage
 
-Chỉnh sửa `main.py` dòng 125-126:
+### Data Format Requirements
+
+Your CSV files must contain the following columns:
+- `title_processed`: Preprocessed article title
+- `summary_processed`: Preprocessed article summary
+- `content_processed`: Preprocessed article content
+- `label`: 0 (Real) or 1 (Fake)
+- `domain`: Source domain (optional)
+
+### Configure Data Paths
+
+Edit `main.py` lines 125-126:
 
 ```python
 REAL_FILE_PATH = "path/to/your/real_articles.csv"
 FAKE_FILE_PATH = "path/to/your/fake_articles.csv"
 ```
 
-**Format dữ liệu cần thiết:**
-- `title_processed`: Tiêu đề đã xử lý
-- `summary_processed`: Tóm tắt đã xử lý  
-- `content_processed`: Nội dung đã xử lý
-- `label`: 0 (Real) / 1 (Fake)
-- `domain`: Tên miền (optional)
-
-### **Bước 4: Chạy Training**
+### Running Experiments
 
 ```bash
-fake_news_env\Scripts\Activate.ps1
 python main.py
 ```
 
-**Chọn experiment type:**
-- `1`: **Single Model Training** - Train 1 model với cấu hình tối ưu
-- `2`: **Model Comparison** - So sánh 5 configurations khác nhau
+**Experiment Options:**
+1. **Single Model Training**: Train one model with optimized configuration
+2. **Model Comparison**: Automatically compare 5 different configurations
 
----
+## Model Configurations
 
-## 🧪 **CÁC THỰC NGHIỆM**
+### Fusion Strategies
 
-### **1. Single Model Training**
+#### 1. Attention Fusion (Recommended)
+Uses learnable attention weights with domain regularization to prevent overfitting:
 
-Cấu hình mặc định (khuyến nghị):
+```python
+weights = F.softmax(attention_weights, dim=0)
+# Domain weight constraint ≤ 15%
+if domain_weight > 0.15:
+    penalty = (domain_weight - 0.15) ** 2
+```
+
+#### 2. Concatenation Fusion
+Simple concatenation of all embeddings:
+
+```python
+fused = torch.cat([title_emb, summary_emb, content_emb, domain_emb], dim=1)
+```
+
+#### 3. Gated Fusion
+Uses gating mechanism to control information flow:
+
+```python
+gate_weights = sigmoid(gate_network(concat_embeddings))
+fused = concat_embeddings * gate_weights
+```
+
+### Default Configuration
 
 ```python
 {
@@ -143,215 +182,37 @@ Cấu hình mặc định (khuyến nghị):
     'fusion_type': 'attention',
     'use_domain': True,
     'num_epochs': 3,
-    'batch_size': 8,  # Tùy thuộc GPU
+    'batch_size': 8,
     'learning_rate': 2e-5,
     'balance_strategy': 'smotetomek'
 }
 ```
 
-### **2. Model Comparison**
+## Performance Optimization
 
-So sánh 5 configurations tự động:
+### Memory Management
 
-1. **PhoBERT_Concat**: Concat fusion
-2. **PhoBERT_Attention**: Attention fusion + domain regularization ⭐
-3. **PhoBERT_Gated**: Gated fusion
-4. **MultiBERT_Attention**: Multilingual BERT comparison
-5. **PhoBERT_Attention_NoDomain**: Test domain impact
+The system includes advanced memory optimization features:
 
----
+- **Automatic GPU cache clearing** before evaluation
+- **CPU fallback** for insufficient GPU memory
+- **Gradient checkpointing** for memory efficiency
+- **Mixed precision training** (AMP) for 40% memory reduction
+- **Periodic memory cleanup** during training
 
-## 🎯 **FUSION STRATEGIES**
+### Training Optimizations
 
-### **1. Attention Fusion** ⭐ (Tốt nhất)
 ```python
-# Learnable attention weights với domain regularization
-weights = F.softmax(attention_weights, dim=0)
-# Giới hạn domain weight ≤ 15% để tránh overfitting
-if domain_weight > 0.15:
-    penalty = (domain_weight - 0.15) ** 2
-```
-
-### **2. Concat Fusion**
-```python
-# Đơn giản nối các embeddings
-fused = torch.cat([title_emb, summary_emb, content_emb, domain_emb], dim=1)
-```
-
-### **3. Gated Fusion**
-```python
-# Gating mechanism để kiểm soát information flow
-gate_weights = sigmoid(gate_network(concat_embeddings))
-fused = concat_embeddings * gate_weights
-```
-
----
-
-## 🎮 **GPU OPTIMIZATION & MEMORY MANAGEMENT**
-
-### **⚡ Memory Optimization Features:**
-
-1. **🛠️ Enhanced Memory Management**:
-   - ✅ Automatic GPU cache clearing before evaluation
-   - ✅ CPU fallback for model loading when GPU memory insufficient
-   - ✅ Gradient checkpointing for memory efficiency
-   - ✅ Expandable CUDA memory segments
-   - ✅ Periodic memory cleanup during training
-
-2. **🔧 Configuration Optimizations**:
-   - ✅ Reduced max_length from 128 → 96 tokens
-   - ✅ Increased gradient accumulation steps: 8 → 16
-   - ✅ Mixed precision training (AMP)
-   - ✅ Smart batch size recommendations by GPU memory
-
-### **Key Factors Affecting GPU Memory:**
-
-1. **Batch Size** (Quan trọng nhất):
-   - Linear scaling: batch_size x2 → memory x2
-   - Khuyến nghị: bắt đầu với 1, tăng dần theo GPU memory
-
-2. **Sequence Length**:
-   - Quadratic scaling: length x2 → memory x4
-   - 96 tokens: cân bằng tốt cho 4GB GPU
-
-3. **🆕 Memory Error Handling**:
-   ```python
-   # Automatic fallback to CPU if GPU memory insufficient
-   try:
-       checkpoint = torch.load(model_path, map_location='cpu')
-       model.load_state_dict(checkpoint['model_state_dict'])
-       model = model.to(DEVICE)
-   except torch.cuda.OutOfMemoryError:
-       # Fallback to CPU evaluation
-       model = model.cpu()
-   ```
-
-### **🧪 Test Memory Optimizations:**
-
-```bash
-# Test các cải tiến memory
-python test_memory_optimizations.py
-```
-
-### **⚙️ Environment Variables for Memory:**
-
-```bash
-# Thiết lập environment variable để tối ưu memory
-export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-```
-
-### **📊 GPU Memory Monitoring:**
-
-Hệ thống tự động monitor và báo cáo:
-- GPU memory usage trước/sau mỗi epoch
-- Memory cleanup status
-- Fallback warnings khi cần thiết
-
-3. **Model Count**:
-   - 3 BERT models (title, summary, content)
-   - Shared weights để giảm memory
-
-4. **Optimization Techniques**:
-   - **Mixed Precision (AMP)**: -40% memory, +20% speed
-   - **Gradient Checkpointing**: -30% memory, -20% speed
-   - **Freeze Layers**: -50% memory, +30% speed
-
----
-
-## 📊 **KẾT QUỢ MONG ĐỢI**
-
-### **Performance Benchmarks:**
-- **Accuracy**: 85-92%
-- **F1-Score (Fake News)**: 83-90%
-- **PhoBERT** > **Multilingual BERT** cho tiếng Việt
-- **Attention Fusion** thường tốt nhất
-
-### **Training Time:**
-- **8GB GPU**: ~2-3 hours (batch_size=8)
-- **12GB GPU**: ~1-2 hours (batch_size=16)
-- **CPU only**: ~8-12 hours (không khuyến nghị)
-
-### **Output Files:**
-```
-results_single_YYYYMMDD_HHMMSS/
-├── bert_attention_best.pt              # Best model weights
-├── bert_attention_comprehensive_results.png  # Evaluation plots
-├── bert_attention_detailed_metrics.json      # Detailed metrics
-├── bert_attention_summary_report.txt         # Human-readable report
-├── training_history.png                      # Training curves
-└── experiment_config.json                    # Experiment settings
-```
-
----
-
-## ⚡ **PERFORMANCE OPTIMIZATIONS**
-
-### **Memory Optimizations:**
-```python
-# Trong config.py
+# Memory-efficient configuration
 GPU_CONFIG = {
-    'mixed_precision': True,      # Enable AMP
-    'pin_memory': True,           # Faster data transfer
-    'prefetch_factor': 2,         # Background data loading
-    'persistent_workers': True    # Reuse worker processes
+    'mixed_precision': True,
+    'pin_memory': True,
+    'prefetch_factor': 2,
+    'persistent_workers': True
 }
 ```
 
-### **Speed Optimizations:**
-```python
-# BERT caching
-torch.backends.cudnn.benchmark = True  # Optimize for fixed input sizes
-torch.backends.cudnn.deterministic = False  # Allow faster algorithms
-```
-
----
-
-## 🚨 **TROUBLESHOOTING**
-
-### **CUDA Out of Memory:**
-```bash
-# 1. Giảm batch size
-batch_size = 4  # instead of 8
-
-# 2. Enable gradient checkpointing
-gradient_checkpointing = True
-
-# 3. Freeze BERT layers
-freeze_bert_layers = 6
-
-# 4. Reduce sequence length
-max_length = 128  # instead of 256
-```
-
-### **Slow Training:**
-```bash
-# 1. Increase batch size (if memory allows)
-batch_size = 16
-
-# 2. Use mixed precision
-mixed_precision = True
-
-# 3. Increase num_workers
-num_workers = 4
-```
-
-### **Poor Performance:**
-```bash
-# 1. Check data balancing
-python -c "from data_balancer import *; check_balance_distribution()"
-
-# 2. Verify domain regularization
-domain_penalty_weight = 0.5
-
-# 3. Try different fusion types
-fusion_type = 'attention'  # usually best
-```
-
----
-
-## 🔧 **CUSTOM CONFIGURATIONS**
-
-### **For Different Hardware:**
+### Hardware-Specific Configurations
 
 **Low Memory (≤6GB):**
 ```python
@@ -375,100 +236,84 @@ config = {
 }
 ```
 
-### **For Different Datasets:**
+## Expected Results
 
-**Small Dataset (<5K samples):**
+### Performance Benchmarks
+- **Accuracy**: 85-92%
+- **F1-Score (Fake News)**: 83-90%
+- **PhoBERT** consistently outperforms Multilingual BERT for Vietnamese
+- **Attention Fusion** typically achieves best results
+
+### Training Time
+- **8GB GPU**: 2-3 hours (batch_size=8)
+- **12GB GPU**: 1-2 hours (batch_size=16)
+- **CPU only**: 8-12 hours (not recommended)
+
+### Output Structure
+```
+results_single_YYYYMMDD_HHMMSS/
+├── bert_attention_best.pt                    # Best model weights
+├── bert_attention_comprehensive_results.png  # Evaluation plots
+├── bert_attention_detailed_metrics.json      # Detailed metrics
+├── bert_attention_summary_report.txt         # Human-readable report
+├── training_history.png                      # Training curves
+└── experiment_config.json                    # Experiment settings
+```
+
+## Troubleshooting
+
+### CUDA Out of Memory
+
 ```python
-config = {
-    'num_epochs': 5,
-    'balance_strategy': 'weighted',
-    'learning_rate': 1e-5  # Lower LR
-}
+# Solutions in order of preference
+1. Reduce batch size: batch_size = 4
+2. Enable gradient checkpointing: gradient_checkpointing = True
+3. Freeze BERT layers: freeze_bert_layers = 6
+4. Reduce sequence length: max_length = 128
 ```
 
-**Large Dataset (>50K samples):**
+### Slow Training Performance
+
 ```python
-config = {
-    'num_epochs': 2,
-    'balance_strategy': 'smotetomek',
-    'learning_rate': 3e-5  # Higher LR
-}
+# Optimization strategies
+1. Increase batch size (if memory allows): batch_size = 16
+2. Use mixed precision: mixed_precision = True
+3. Increase data workers: num_workers = 4
+4. Enable GPU optimizations: torch.backends.cudnn.benchmark = True
 ```
 
----
+### Poor Model Performance
 
-## 📈 **MONITORING & DEBUGGING**
-
-### **GPU Memory Monitoring:**
 ```python
-# Trong training loop
-if batch_idx % 100 == 0:
-    print(f"GPU Memory: {torch.cuda.memory_allocated()/1e9:.2f}GB")
+# Debugging steps
+1. Verify data balance: python data_balancer.py
+2. Check domain regularization: domain_penalty_weight = 0.5
+3. Try different fusion: fusion_type = 'attention'
+4. Validate data quality and preprocessing
 ```
 
-### **Training Progress:**
-- Loss curves được lưu tự động
-- Validation metrics mỗi epoch
-- Best model checkpoint tự động
+## Technical Specifications
 
-### **Performance Analysis:**
-```bash
-# Xem detailed results
-python -c "from results_saver import *; analyze_results('results_dir')"
-```
+### Dependencies
+- PyTorch 1.9+
+- Transformers 4.0+
+- scikit-learn 1.0+
+- imbalanced-learn 0.8+
+- CUDA 11.0+ (for GPU acceleration)
 
----
+### System Requirements
+- **Minimum**: 8GB RAM, 4GB GPU
+- **Recommended**: 16GB RAM, 8GB GPU
+- **Optimal**: 32GB RAM, 12GB+ GPU
 
-## 📞 **SUPPORT & FAQ**
+## Research & Development
 
-### **Common Issues:**
+This system implements cutting-edge research in Vietnamese NLP:
 
-**Q: GPU không được detect?**
-```bash
-# Check CUDA installation
-python -c "import torch; print(torch.cuda.is_available())"
-```
+1. **PhoBERT Fine-tuning**: Leverages Vietnamese-specific language model
+2. **Multimodal Architecture**: Processes multiple text modalities simultaneously
+3. **Domain Regularization**: Prevents overfitting to specific news sources
+4. **Advanced Data Balancing**: SMOTETomek for optimal class distribution
+5. **Memory-Efficient Training**: Mixed precision and gradient checkpointing
 
-**Q: Training bị killed?**
-```bash
-# Reduce batch size hoặc enable swapping
-batch_size = 2
-```
-
-**Q: Accuracy thấp?**
-```bash
-# Check data quality và balance ratio
-python data_balancer.py
-```
-
-### **Best Practices:**
-1. 🎯 Luôn bắt đầu với cấu hình conservative
-2. 💾 Monitor GPU memory usage
-3. 📊 Validate trên multiple runs
-4. 🔄 Save checkpoints thường xuyên
-5. 📈 Track experiments với tensorboard/wandb
-
----
-
-## 🎯 **CONCLUSION**
-
-### **Recommended Workflow:**
-1. **Setup**: Check GPU → Install dependencies
-2. **Config**: Run `gpu_optimization_guide.py` 
-3. **Data**: Prepare CSV với format đúng
-4. **Training**: Start với single model (option 1)
-5. **Optimize**: Tăng batch size gradually
-6. **Compare**: Chạy model comparison (option 2)
-7. **Deploy**: Use best model cho inference
-
-### **Key Success Factors:**
-- ✅ **PhoBERT** tối ưu cho tiếng Việt
-- ✅ **Attention fusion** với domain regularization
-- ✅ **SMOTETomek balancing** 65:35 ratio
-- ✅ **Mixed precision training** để tiết kiệm memory
-- ✅ **Proper GPU configuration** theo hardware
-
----
-
-**📝 Note**: Codebase này được thiết kế đặc biệt cho Vietnamese fake news detection với BERT fine-tuning. Mọi phương pháp TF-IDF cũ đã được loại bỏ hoàn toàn.
 
