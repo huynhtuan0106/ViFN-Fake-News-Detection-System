@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup
 from pyvi import ViTokenizer
 from sklearn.preprocessing import LabelEncoder
-from config import TRUSTED_DOMAINS
+# from config import TRUSTED_DOMAINS
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -258,16 +258,16 @@ class RealDataLoader:
         """Tính điểm tin cậy cho domain"""
         domain = str(domain).lower()
         
-        if domain in [d.lower() for d in TRUSTED_DOMAINS]:
-            return 1.0
-        elif domain.endswith('.gov.vn') or domain.endswith('.edu.vn'):
-            return 0.9
+        # if domain in [d.lower() for d in TRUSTED_DOMAINS]:
+        #     return 1.0
+        if domain.endswith('.gov.vn') or domain.endswith('.edu.vn'):
+            return 0.5
         elif domain.endswith('.vn'):
-            return 0.6
-        elif domain.endswith('.com') or domain.endswith('.net') or domain.endswith('.org'):
             return 0.4
-        else:
+        elif domain.endswith('.com') or domain.endswith('.net') or domain.endswith('.org'):
             return 0.2
+        else:
+            return 0.1
     
     def get_statistics(self):
         """Lấy thống kê dữ liệu"""

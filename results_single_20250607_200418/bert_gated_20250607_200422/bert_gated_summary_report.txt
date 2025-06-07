@@ -1,0 +1,37 @@
+VIETNAMESE FAKE NEWS DETECTION - RESULTS SUMMARY
+============================================================
+
+Model: bert_gated
+Date: 2025-06-07 20:55:05
+
+OVERALL PERFORMANCE:
+------------------------------
+Accuracy: 0.9790
+Precision (Macro): 0.9784
+Recall (Macro): 0.9753
+F1-Score (Macro): 0.9768
+
+PER-CLASS PERFORMANCE:
+------------------------------
+Real News:
+  Precision: 0.9804
+  Recall: 0.9875
+  F1-Score: 0.9839
+
+Fake News:
+  Precision: 0.9764
+  Recall: 0.9632
+  F1-Score: 0.9698
+
+TEST SET INFORMATION:
+------------------------------
+Total samples: 1476
+Real news samples: 960
+Fake news samples: 516
+
+DATA BALANCING INFO:
+------------------------------
+Balancing method: SMOTETomek
+Original size: 5461
+Balanced size: 7376
+Synthetic samples: 1915
