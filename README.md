@@ -17,16 +17,25 @@ This system implements state-of-the-art natural language processing techniques s
 - **Comprehensive evaluation** with detailed metrics and visualizations
 
 ## System Architecture
+```mermaid
+graph LR
+    A[Data Collection] --> B[Data Pre-processing]
+    B --> C[Feature Extraction]
+    C --> D[Late Fusion]
+    D --> E[Classification]
+```
+
+## Late fusion Architecture
 
 ```mermaid
-graph TD
-    A["Data Loading<br/>(CSV Files)"] --> B["SMOTETomek Balancing<br/>(65:35 ratio)"]
+graph LR
+    A["Data"] --> B["SMOTETomek Balancing"]
     B --> C["Text Preprocessing"]
-    C --> D["PhoBERT Tokenization"]
+    C --> D["Transformer Tokenization"]
     
-    D --> E1["Title Embedding<br/>(PhoBERT)"]
-    D --> E2["Summary Embedding<br/>(PhoBERT)"]
-    D --> E3["Content Embedding<br/>(PhoBERT)"]
+    D --> E1["Title Embedding"]
+    D --> E2["Summary Embedding"]
+    D --> E3["Content Embedding"]
     
     F["Domain Features<br/>Processing"] --> G["Domain Regularization"]
     

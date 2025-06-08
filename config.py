@@ -14,7 +14,9 @@ GPU_CONFIG = {
 
 # BERT Fine-tuning configuration
 BERT_CONFIG = {
-    'model_name': 'vinai/phobert-base',  # Default PhoBERT
+    # 'model_name': 'vinai/phobert-base',  # PhoBERT
+    # 'model_name': 'google-bert/bert-base-uncased',  # BERT
+    'model_name': 'uitnlp/visobert',  # ViSobert
     'max_length': 96,  # Max sequence length (↓ memory) - reduced from 128
     'hidden_dim': 768,  # BERT hidden size
     'num_classes': 2,
@@ -24,8 +26,8 @@ BERT_CONFIG = {
 
 # Training parameters optimized for GPU memory
 TRAINING_CONFIG = {
-    'num_epochs': 3,  # Standard for BERT fine-tuning
-    'batch_size': 1,  # Default batch size - adjust based on GPU memory
+    'num_epochs': 5,  # Standard for BERT fine-tuning
+    'batch_size': 2,  # Default batch size - adjust based on GPU memory
     'gradient_accumulation_steps': 16,  # Increased for better memory efficiency
     'learning_rate': 2e-5,  # Standard BERT learning rate
     'warmup_ratio': 0.1,
@@ -51,7 +53,7 @@ BALANCE_CONFIG = {
 
 # Multimodal fusion configuration
 FUSION_CONFIG = {
-    'fusion_type': 'gated',  # 'concat', 'attention', 'gated'
+    'fusion_type': 'attention',  # 'concat', 'attention', 'gated'
     'use_domain': True,
     'domain_regularization': True,
     'max_domain_weight': 0.15,  # Limit domain influence to 15%
