@@ -28,7 +28,7 @@ graph LR
 ## Late fusion Architecture
 
 ```mermaid
-graph LR
+graph TD
     A["Data"] --> B["SMOTETomek Balancing"]
     B --> C["Text Preprocessing"]
     C --> D["Transformer Tokenization"]
