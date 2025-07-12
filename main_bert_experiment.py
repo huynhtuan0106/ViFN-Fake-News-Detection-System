@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from bert_training import main_bert_training
-from config import DEVICE
+from config import DEVICE, BERT_CONFIG, TRAINING_CONFIG, FUSION_CONFIG, BALANCE_CONFIG
 
 def run_comprehensive_bert_experiment(real_file_path, fake_file_path, 
                                      output_dir='bert_comprehensive_results'):
@@ -48,28 +48,28 @@ def run_comprehensive_bert_experiment(real_file_path, fake_file_path,
     experiment_dir = os.path.join(output_dir, f"comparison_{timestamp}")
     os.makedirs(experiment_dir, exist_ok=True)
     
-    # CẤU HÌNH CÁC THÍ NGHIỆM
+    # CẤU HÌNH CÁC THÍ NGHIỆM - Sử dụng config từ config.py
     configurations = [
         # PhoBERT với các fusion strategies
         {
             'name': 'PhoBERT_Concat',
             'bert_model': 'vinai/phobert-base',
             'fusion_type': 'concat',
-            'use_domain': True,
+            'use_domain': FUSION_CONFIG['use_domain'],
             'description': 'PhoBERT với concat fusion'
         },
         {
             'name': 'PhoBERT_Attention',
             'bert_model': 'vinai/phobert-base',
             'fusion_type': 'attention',
-            'use_domain': True,
+            'use_domain': FUSION_CONFIG['use_domain'],
             'description': 'PhoBERT với attention fusion + domain regularization'
         },
         {
             'name': 'PhoBERT_Gated',
             'bert_model': 'vinai/phobert-base',
             'fusion_type': 'gated',
-            'use_domain': True,
+            'use_domain': FUSION_CONFIG['use_domain'],
             'description': 'PhoBERT với gated fusion'
         },
         
@@ -78,7 +78,7 @@ def run_comprehensive_bert_experiment(real_file_path, fake_file_path,
             'name': 'MultiBERT_Attention',
             'bert_model': 'google-bert/bert-base-multilingual-cased',
             'fusion_type': 'attention',
-            'use_domain': True,
+            'use_domain': FUSION_CONFIG['use_domain'],
             'description': 'Multilingual BERT với attention fusion'
         },
         
@@ -92,14 +92,14 @@ def run_comprehensive_bert_experiment(real_file_path, fake_file_path,
         }
     ]
     
-    # Cấu hình training chung
+    # Cấu hình training chung - Sử dụng từ config.py
     common_config = {
-        'num_epochs': 3,
-        'batch_size': 8,
-        'learning_rate': 2e-5,
-        'freeze_bert_layers': 0,
-        'balance_strategy': 'smotetomek',
-        'balance_target_ratio': 0.65
+        'num_epochs': TRAINING_CONFIG['num_epochs'],
+        'batch_size': TRAINING_CONFIG['batch_size'],
+        'learning_rate': TRAINING_CONFIG['learning_rate'],
+        'freeze_bert_layers': BERT_CONFIG['freeze_layers'],
+        'balance_strategy': BALANCE_CONFIG['strategy'],
+        'balance_target_ratio': BALANCE_CONFIG['target_ratio']
     }
     
     results = {}

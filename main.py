@@ -224,6 +224,20 @@ def main():
         print("Will compare multiple BERT models and fusion strategies")
         print("This may take 1-2 hours depending on your hardware...")
         
+        # Import config để hiển thị thông tin
+        from config import TRAINING_CONFIG, BERT_CONFIG, FUSION_CONFIG, BALANCE_CONFIG, BATCH_SIZE_BY_GPU
+        
+        print(f"\nConfiguration loaded from config.py:")
+        print(f"   - Training epochs: {TRAINING_CONFIG['num_epochs']}")
+        print(f"   - Batch size: {TRAINING_CONFIG['batch_size']}")
+        print(f"   - Learning rate: {TRAINING_CONFIG['learning_rate']}")
+        print(f"   - Balance strategy: {BALANCE_CONFIG['strategy']}")
+        print(f"   - Balance ratio: {BALANCE_CONFIG['target_ratio']}")
+        print(f"   - Use domain features: {FUSION_CONFIG['use_domain']}")
+        print(f"   - GPU Memory Recommendations:")
+        for gpu_mem, batch_size in BATCH_SIZE_BY_GPU.items():
+            print(f"     {gpu_mem}: batch_size={batch_size}")
+        
         # Xác nhận
         confirm = input("\nContinue? (y/n): ").strip().lower()
         if confirm != 'y':
